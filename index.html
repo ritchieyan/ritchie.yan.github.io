@@ -262,6 +262,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/noSuchMethodError/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ritchie.Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritchie Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/noSuchMethodError/" itemprop="url">Jackson包依赖冲突，出现NoSuchMethodError异常</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T19:37:51+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Jackson异常信息：java-lang-NoSuchMethodError"><a href="#Jackson异常信息：java-lang-NoSuchMethodError" class="headerlink" title="Jackson异常信息：java.lang.NoSuchMethodError"></a>Jackson异常信息：java.lang.NoSuchMethodError</h2><blockquote>
+</blockquote>
+<pre><code>java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.findFormatOverrides(Lcom/fasterxml/jackson/databind/SerializerProvider;Lcom/fasterxml/jackson/databind/BeanProperty;Ljava/lang/Class;)Lcom/fasterxml/jackson/annotation/JsonFormat$Value;
+java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.findFormatOverrides(Lcom/fasterxml/jackson/databind/SerializerProvider;Lcom/fasterxml/jackson/databind/BeanProperty;Ljava/lang/Class;)Lcom/fasterxml/jackson/annotation/JsonFormat$Value;
+at com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.createContextual(JodaDateSerializerBase.java:49)
+at com.fasterxml.jackson.databind.SerializerProvider.handleSecondaryContextualization(SerializerProvider.java:944)
+at com.fasterxml.jackson.databind.SerializerProvider.findValueSerializer(SerializerProvider.java:495)
+at com.fasterxml.jackson.databind.ser.impl.PropertySerializerMap.findAndAddSecondarySerializer(PropertySerializerMap.java:90)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer._findAndAddDynamic(ObjectArraySerializer.java:394)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serializeContents(ObjectArraySerializer.java:253)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serialize(ObjectArraySerializer.java:216)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serialize(ObjectArraySerializer.java:26)
+at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:130)
+at com.fasterxml.jackson.databind.ObjectMapper.writeValue(ObjectMapper.java:2383)
+at com.fasterxml.jackson.core.base.GeneratorBase.writeObject(GeneratorBase.java:324)
+at com.wormpex.fd.wclient.rpc.dubbo.filter.AbstractAccessLogFilter$AccessLogSerializer.serialize(AbstractAccessLogFilter.java:350)
+at com.wormpex.fd.wclient.rpc.dubbo.filter.AbstractAccessLogFilter$AccessLogSerializer.serialize(AbstractAccessLogFilter.java:282)
+at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:130)
+at com.fasterxml.jackson.databind.ObjectMapper._configAndWriteValue(ObjectMapper.java:3559)
+at com.fasterxml.jackson.databind.ObjectMapper.writeValue(ObjectMapper.java:2893)
+at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
+... 74 common frames omitted
+</code></pre><blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>出现NoSuchMethodError，一般会有两种Case:</p>
+<ol>
+<li><h3 id="jar包冲突，相同jar包，依赖多个版本"><a href="#jar包冲突，相同jar包，依赖多个版本" class="headerlink" title="jar包冲突，相同jar包，依赖多个版本"></a>jar包冲突，相同jar包，依赖多个版本</h3> 这种情况往往是maven依赖导致的，编译时，可能会加载旧版本jar，导致运行时无法找到某个method</li>
+<li><h3 id="class冲突，不同的jar包中，存在相同的包目录结构，相同class名称"><a href="#class冲突，不同的jar包中，存在相同的包目录结构，相同class名称" class="headerlink" title="class冲突，不同的jar包中，存在相同的包目录结构，相同class名称"></a>class冲突，不同的jar包中，存在相同的包目录结构，相同class名称</h3> <strong>这种情况比较特殊。举个栗子</strong><br> 某个工程依赖了jackson-3.1.2.jar, 同时这个工程又依赖了foo-1.1.0.jar<br> 如果foo包中也需要依赖jackson包，但是没有直接依赖，而是将jackson包中的类，以同包同类名拷贝到foo包中，<br> 当类加载时，可能会优先加载foo包中的jackson类，从而导致不会再加载jackson包中的类，最终运行时无法找到某个method</li>
+</ol>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/markdown-sdk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1189,7 +1359,7 @@ Pipe     | $1
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1200,7 +1370,7 @@ Pipe     | $1
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1211,7 +1381,7 @@ Pipe     | $1
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
