@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="Ritchie Blog">
 <meta property="og:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.  java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.i">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-30T14:45:35.451Z">
+<meta property="og:image" content="http://yoursite.com/resource/img/DubboExport.class.png">
+<meta property="og:updated_time" content="2018-11-06T14:26:35.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo异常问题汇总">
 <meta name="twitter:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.  java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.i">
+<meta name="twitter:image" content="http://yoursite.com/resource/img/DubboExport.class.png">
 
 
 
@@ -352,7 +354,7 @@
       
 
       
-        <h2 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h2><blockquote>
+        <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><blockquote>
 </blockquote>
 <pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
  at com.alibaba.dubbo.registry.integration.RegistryDirectory.refreshInvoker(RegistryDirectory.java:189)
@@ -372,6 +374,27 @@
 <li>且存在override协议，设置该dubbo协议的<code>disable=true</code></li>
 <li>此时consumer端无法创建任何一个invoker，报出此异常</li>
 </ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><a href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070" class="headerlink" title="Dubbo异常信息：Not found exported service: com.xxx.FooService:20070."></a>Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</h3><pre><code>场景：
+    在一个应用中同时export多dubbo服务，且满足一下条件:
+        1. 暴露服务的serviceName相同，但是服务实现不同
+        2. 分别在不同的注册中心暴露
+    例如:
+        /dubbo/r1/com.xxx.FooService
+        /dubbo/r2/com.xxx.FooService
+
+    此时，unexport其中一个服务节点，再调用其他服务，就会报错。
+</code></pre><blockquote>
+<ul>
+<li><h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3>  通过源码分析发现其根本原因在于Dubbo Protocol中的serviceKey<br>  首先我们看下DubboExporter<br>  <img src="/resource/img/DubboExport.class.png" alt="DubboExporter.class" title="DubboExporter.class"><br>  当unexport时，exporterMap会移除export，而这个map的key就是serviceKey<br>  再来看下serviceKey的构成<pre><code>serviceKey = ${group} [/] ${interfaceName} [:] ${version} 
+</code></pre>  由此我们发现所有暴露的服务的serviceKey都是相同的<br>  所以当unexport其中某个服务，会根据serviceKey移除所有的export<br>  <em>注: 所有服务共享一个端口暴露</em></li>
+<li><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><ol>
+<li>设置group</li>
+<li>设置version<br><em>目的: 保证serviceKey不唯一</em></li>
+</ol>
 </li>
 </ul>
 </blockquote>
@@ -563,7 +586,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><span class="nav-number">2.</span> <span class="nav-text">Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">3.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">4.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
             
 
           </div>
