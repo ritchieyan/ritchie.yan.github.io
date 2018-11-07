@@ -190,16 +190,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
@@ -355,17 +345,37 @@
       
         
           
-          Jackson异常信息：java.lang.NoSuchMethodError
+            <h2 id="Jackson异常信息：java-lang-NoSuchMethodError"><a href="#Jackson异常信息：java-lang-NoSuchMethodError" class="headerlink" title="Jackson异常信息：java.lang.NoSuchMethodError"></a>Jackson异常信息：java.lang.NoSuchMethodError</h2><blockquote>
+</blockquote>
+<pre><code>java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.findFormatOverrides(Lcom/fasterxml/jackson/databind/SerializerProvider;Lcom/fasterxml/jackson/databind/BeanProperty;Ljava/lang/Class;)Lcom/fasterxml/jackson/annotation/JsonFormat$Value;
+java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.findFormatOverrides(Lcom/fasterxml/jackson/databind/SerializerProvider;Lcom/fasterxml/jackson/databind/BeanProperty;Ljava/lang/Class;)Lcom/fasterxml/jackson/annotation/JsonFormat$Value;
+at com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.createContextual(JodaDateSerializerBase.java:49)
+at com.fasterxml.jackson.databind.SerializerProvider.handleSecondaryContextualization(SerializerProvider.java:944)
+at com.fasterxml.jackson.databind.SerializerProvider.findValueSerializer(SerializerProvider.java:495)
+at com.fasterxml.jackson.databind.ser.impl.PropertySerializerMap.findAndAddSecondarySerializer(PropertySerializerMap.java:90)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer._findAndAddDynamic(ObjectArraySerializer.java:394)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serializeContents(ObjectArraySerializer.java:253)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serialize(ObjectArraySerializer.java:216)
+at com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer.serialize(ObjectArraySerializer.java:26)
+at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:130)
+at com.fasterxml.jackson.databind.ObjectMapper.writeValue(ObjectMapper.java:2383)
+at com.fasterxml.jackson.core.base.GeneratorBase.writeObject(GeneratorBase.java:324)
+at com.wormpex.fd.wclient.rpc.dubbo.filter.AbstractAccessLogFilter$AccessLogSerializer.serialize(AbstractAccessLogFilter.java:350)
+at com.wormpex.fd.wclient.rpc.dubbo.filter.AbstractAccessLogFilter$AccessLogSerializer.serialize(AbstractAccessLogFilter.java:282)
+at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:130)
+at com.fasterxml.jackson.databind.ObjectMapper._configAndWriteValue(ObjectMapper.java:3559)
+at com.fasterxml.jackson.databind.ObjectMapper.writeValue(ObjectMapper.java:2893)
+at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
+... 74 common frames omitted
+</code></pre><blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>出现NoSuchMethodError，一般会有两种Case:</p>
+<ol>
+<li><h3 id="jar包冲突，相同jar包，依赖多个版本"><a href="#jar包冲突，相同jar包，依赖多个版本" class="headerlink" title="jar包冲突，相同jar包，依赖多个版本"></a>jar包冲突，相同jar包，依赖多个版本</h3> 这种情况往往是maven依赖导致的，编译时，可能会加载旧版本jar，导致运行时无法找到某个method</li>
+<li><h3 id="class冲突，不同的jar包中，存在相同的包目录结构，相同class名称"><a href="#class冲突，不同的jar包中，存在相同的包目录结构，相同class名称" class="headerlink" title="class冲突，不同的jar包中，存在相同的包目录结构，相同class名称"></a>class冲突，不同的jar包中，存在相同的包目录结构，相同class名称</h3> <strong>这种情况比较特殊。举个栗子</strong><br> 某个工程依赖了jackson-3.1.2.jar, 同时这个工程又依赖了foo-1.1.0.jar<br> 如果foo包中也需要依赖jackson包，但是没有直接依赖，而是将jackson包中的类，以同包同类名拷贝到foo包中，<br> 当类加载时，可能会优先加载foo包中的jackson类，从而导致不会再加载jackson包中的类，最终运行时无法找到某个method</li>
+</ol>
+</blockquote>
 
-java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSerializerBase.findFormatOverrid
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/05/noSuchMethodError/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -504,23 +514,38 @@ java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSer
 
       
         
-          
-          1.标题
-#h1级标题
+          <h2 id="1-标题"><a href="#1-标题" class="headerlink" title="1.标题"></a>1.标题</h2><blockquote>
+<pre><code>#h1级标题
 ##h2级标题  
 ###h3级标题  
 ####h4级标题  
 #####h5级标题    
 ######h6级标题   
-#h1级标题
-##h2级标题
-###h3级标题
-####h4级标题
-#####h5级标题
-######h6级标题
-
-2.分割线三个以上的短线 即可作出
-          ...
+</code></pre><p>#h1级标题</p>
+<p>##h2级标题</p>
+<p>###h3级标题</p>
+<p>####h4级标题</p>
+<p>#####h5级标题</p>
+<p>######h6级标题</p>
+</blockquote>
+<h2 id="2-分割线"><a href="#2-分割线" class="headerlink" title="2.分割线"></a>2.分割线</h2><pre><code>三个以上的短线 即可作出分割线 `----`  
+</code></pre><h2 id="3-超链接：-连接名称-网址-标题"><a href="#3-超链接：-连接名称-网址-标题" class="headerlink" title="3.超链接：[连接名称](网址 , 标题)"></a>3.超链接：<code>[连接名称](网址 , 标题)</code></h2><blockquote>
+<pre><code>[我是链接名](http://www.izhangbo.cn, &quot;我是标题&quot;)  
+[&lt;i class=&quot;icon-refresh&quot;&gt;&lt;/i&gt; 点我刷新](/sonfilename/)
+</code></pre><p><a href="http://www.ritchie.vip," title="我是标题" target="_blank" rel="noopener">我是链接名</a><br><a href="/sonfilename/"><i class="icon-refresh"></i> 点我刷新</a>  </p>
+</blockquote>
+<p>另一种超链接写法：<code>[链接名][链接代号]</code> </p>
+<blockquote>
+<pre><code>[here][3]  
+然后在别的地方定义 3 这个详细链接信息，
+[3]: http://www.izhangbo.cn &quot;聚牛团队  
+</code></pre><p>[here][3]<br>[3]: <a href="http://www.izhangbo.cn" target="_blank" rel="noopener">http://www.izhangbo.cn</a> “聚牛团队   </p>
+</blockquote>
+<p>直接展示链接的写法：<code>&lt;http://www.ritchie.vip&gt;</code>  </p>
+<blockquote>
+<pre><code>&lt;http://www.ritchie.vip&gt;
+</code></pre><p><a href="http://www.ritchie.vip" target="_blank" rel="noopener">http://www.ritchie.vip</a></p>
+</blockquote>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/05/markdown-sdk/#more" rel="contents">
@@ -666,11 +691,30 @@ java.lang.NoSuchMethodError: com.fasterxml.jackson.datatype.joda.ser.JodaDateSer
 
       
         
-          
-          Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.
-
-java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1,
-          ...
+          <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><blockquote>
+</blockquote>
+<pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
+ at com.alibaba.dubbo.registry.integration.RegistryDirectory.refreshInvoker(RegistryDirectory.java:189)
+ at com.alibaba.dubbo.registry.integration.RegistryDirectory.notify(RegistryDirectory.java:154)
+ at com.alibaba.dubbo.registry.support.AbstractRegistry.notify(AbstractRegistry.java:440)
+ at com.alibaba.dubbo.registry.support.FailbackRegistry.doNotify(FailbackRegistry.java:263)
+ at com.alibaba.dubbo.registry.support.FailbackRegistry.notify(FailbackRegistry.java:249)
+ at com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry.access$400(ZookeeperRegistry.java:43)
+ at com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry$3.childChanged(ZookeeperRegistry.java:157)
+ at com.alibaba.dubbo.remoting.zookeeper.zkclient.ZkclientZookeeperClient$2.handleChildChange(ZkclientZookeeperClient.java:85)
+ at org.I0Itec.zkclient.ZkClient$7.run(ZkClient.java:568)
+ at org.I0Itec.zkclient.ZkEventThread.run(ZkEventThread
+</code></pre><blockquote>
+<ul>
+<li>原因<ul>
+<li>当一个dubbo服务，先有consumer订阅，后有provider注册时</li>
+<li>且存在override协议，设置该dubbo协议的<code>disable=true</code></li>
+<li>此时consumer端无法创建任何一个invoker，报出此异常</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/30/dubbo-error/#more" rel="contents">
@@ -817,20 +861,16 @@ java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1,
       
         
           
-          本文主要介绍Linux如何查看端口占用的情况
+            <h4 id="本文主要介绍Linux如何查看端口占用的情况"><a href="#本文主要介绍Linux如何查看端口占用的情况" class="headerlink" title="本文主要介绍Linux如何查看端口占用的情况"></a>本文主要介绍Linux如何查看端口占用的情况</h4><blockquote>
+<ul>
+<li>lsof -i:port // 查看某一端口的使用情况。</li>
+<li>netstat -anp | grep key // 查看所有进程和端口的使用情况。</li>
+<li>netstat -tunlp | grep key // 用于显示tcp、udp的端口和进程等相关情况。</li>
+<li>ps -aux | grep key // 用于查看进程的使用情况</li>
+</ul>
+</blockquote>
 
-lsof -i:port // 查看某一端口的使用情况。
-netstat -anp | grep key // 查看所有进程和端口的使用情况。
-netstat -tunlp | grep key // 用于显示tcp、udp的端口和进程等相关情况。
-p
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/29/linux-proces-tcp/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -970,27 +1010,20 @@ p
       
         
           
+            <blockquote>
+<ul>
+<li>压缩文件<ul>
+<li>tar zcvf [file.tar.gz] [filedir]</li>
+</ul>
+</li>
+<li>解压文件<ul>
+<li>tar zxvf [file.tar.gz]</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
           
-
-压缩文件
-tar zcvf [file.tar.gz] [filedir]
-
-
-解压文件
-tar zxvf [file.tar.gz]
-
-
-
-
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/29/linux-tar/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1130,15 +1163,17 @@ tar zxvf [file.tar.gz]
       
         
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/06/hexo-command/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
         
       
     </div>
@@ -1301,15 +1336,9 @@ tar zxvf [file.tar.gz]
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
