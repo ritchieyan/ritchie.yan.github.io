@@ -252,6 +252,223 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/zk-ops-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ritchie.Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritchie Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/08/zk-ops-command/" itemprop="url">Zookeeper运维四字命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T17:00:09+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
+                    <span itemprop="name">zookeeper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conf</code></td>
+<td>(sleep 1; echo “conf”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)输出相关服务配置的详细信息。比如端口、zk数据及日志配置路径、最大连接数，session超时时间、serverId等</td>
+</tr>
+<tr>
+<td><code>cons</code></td>
+<td>(sleep 1; echo “cons”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)列出所有连接到这台服务器的客户端连接/会话的详细信息。包括“接受/发送”的包数量、session id 、操作延迟、最后的操作执行等信息。</td>
+</tr>
+<tr>
+<td><code>crst</code></td>
+<td>(sleep 1; echo “crst”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)重置当前这台服务器所有连接/会话的统计信息</td>
+</tr>
+<tr>
+<td><code>dump</code></td>
+<td>(sleep 1; echo “dump”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>列出未经处理的会话和临时节点（只在leader上有效）。</td>
+</tr>
+<tr>
+<td><code>envi</code></td>
+<td>(sleep 1; echo “envi”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>输出关于服务器的环境详细信息（不同于conf命令），比如host.name、java.version、java.home、user.dir=/data/zookeeper-3.4.6/bin之类信息</td>
+</tr>
+<tr>
+<td><code>ruok</code></td>
+<td>(sleep 1; echo “ruok”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>测试服务是否处于正确运行状态。如果正常返回”imok”，否则返回空。</td>
+</tr>
+<tr>
+<td><code>srst</code></td>
+<td>(sleep 1; echo “srst”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>重置服务器的统计信息</td>
+</tr>
+<tr>
+<td><code>srvr</code></td>
+<td>(sleep 1; echo “srvr”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)输出服务器的详细信息。zk版本、接收/发送包数量、连接数、模式（leader/follower）、节点总数。</td>
+</tr>
+<tr>
+<td><code>stat</code></td>
+<td>(sleep 1; echo “stat”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>输出服务器的详细信息：接收/发送包数量、连接数、模式（leader/follower）、节点总数、延迟。 所有客户端的列表。</td>
+</tr>
+<tr>
+<td><code>wchs</code></td>
+<td>(sleep 1; echo “wchs”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)列出服务器watches的简洁信息：连接总数、watching节点总数和watches总数</td>
+</tr>
+<tr>
+<td><code>wchc</code></td>
+<td>(sleep 1; echo “wchc”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)通过session分组，列出watch的所有节点，它的输出是一个与 watch 相关的会话的节点列表。<font color="red"><strong>如果watches数量很大的话，将会产生很大的开销，会影响性能，小心使用。</strong></font></td>
+</tr>
+<tr>
+<td><code>wchp</code></td>
+<td>(sleep 1; echo “wchp”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)通过路径分组，列出所有的 watch 的session id信息。它输出一个与 session 相关的路径。<font color="red"><strong>如果watches数量很大的话，将会产生很大的开销，会影响性能，小心使用。</strong></font></td>
+</tr>
+<tr>
+<td><code>mntr</code></td>
+<td>(sleep 1; echo “mntr”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.4.0)列出集群的健康状态。包括“接受/发送”的包数量、操作延迟、当前服务模式（leader/follower）、节点总数、watch总数、临时节点总数。</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/noSuchMethodError/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -521,13 +738,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
 ####h4级标题  
 #####h5级标题    
 ######h6级标题   
-</code></pre><p>#h1级标题</p>
-<p>##h2级标题</p>
-<p>###h3级标题</p>
-<p>####h4级标题</p>
-<p>#####h5级标题</p>
-<p>######h6级标题</p>
-</blockquote>
+</code></pre><h1 id="h1级标题"><a href="#h1级标题" class="headerlink" title="h1级标题"></a>h1级标题</h1><h2 id="h2级标题"><a href="#h2级标题" class="headerlink" title="h2级标题"></a>h2级标题</h2><h3 id="h3级标题"><a href="#h3级标题" class="headerlink" title="h3级标题"></a>h3级标题</h3><h4 id="h4级标题"><a href="#h4级标题" class="headerlink" title="h4级标题"></a>h4级标题</h4><h5 id="h5级标题"><a href="#h5级标题" class="headerlink" title="h5级标题"></a>h5级标题</h5><h6 id="h6级标题"><a href="#h6级标题" class="headerlink" title="h6级标题"></a>h6级标题</h6></blockquote>
 <h2 id="2-分割线"><a href="#2-分割线" class="headerlink" title="2.分割线"></a>2.分割线</h2><pre><code>三个以上的短线 即可作出分割线 `----`  
 </code></pre><h2 id="3-超链接：-连接名称-网址-标题"><a href="#3-超链接：-连接名称-网址-标题" class="headerlink" title="3.超链接：[连接名称](网址 , 标题)"></a>3.超链接：<code>[连接名称](网址 , 标题)</code></h2><blockquote>
 <pre><code>[我是链接名](http://www.izhangbo.cn, &quot;我是标题&quot;)  
@@ -691,9 +902,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
 
       
         
-          <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><blockquote>
-</blockquote>
-<pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
+          <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
  at com.alibaba.dubbo.registry.integration.RegistryDirectory.refreshInvoker(RegistryDirectory.java:189)
  at com.alibaba.dubbo.registry.integration.RegistryDirectory.notify(RegistryDirectory.java:154)
  at com.alibaba.dubbo.registry.support.AbstractRegistry.notify(AbstractRegistry.java:440)
@@ -706,12 +915,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
  at org.I0Itec.zkclient.ZkEventThread.run(ZkEventThread
 </code></pre><blockquote>
 <ul>
-<li>原因<ul>
-<li>当一个dubbo服务，先有consumer订阅，后有provider注册时</li>
-<li>且存在override协议，设置该dubbo协议的<code>disable=true</code></li>
-<li>此时consumer端无法创建任何一个invoker，报出此异常</li>
-</ul>
-</li>
+<li><h3 id="定位原因"><a href="#定位原因" class="headerlink" title="定位原因"></a>定位原因</h3>  当一个dubbo服务，先有consumer订阅，后有provider注册时<br>  且存在override协议，设置该dubbo协议的<code>disable=true</code><br>  此时consumer端无法创建任何一个invoker，报出此异常</li>
 </ul>
 </blockquote>
 <hr>
@@ -1257,7 +1461,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1268,7 +1472,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1279,7 +1483,7 @@ at com.wormpex.common.json.JsonMapper.writeValue(JsonMapper.java:1011)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.  java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.i">
+<meta name="description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.int">
 <meta name="keywords" content="dubbo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dubbo异常问题汇总">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/dubbo-error/index.html">
 <meta property="og:site_name" content="Ritchie Blog">
-<meta property="og:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.  java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.i">
+<meta property="og:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.int">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/resource/img/DubboExport.class.png">
-<meta property="og:updated_time" content="2018-11-07T02:52:54.942Z">
+<meta property="og:updated_time" content="2018-11-07T03:43:49.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo异常问题汇总">
-<meta name="twitter:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.  java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.i">
+<meta name="twitter:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.int">
 <meta name="twitter:image" content="http://yoursite.com/resource/img/DubboExport.class.png">
 
 
@@ -344,9 +344,7 @@
       
 
       
-        <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><blockquote>
-</blockquote>
-<pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
+        <h3 id="Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><a href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0" class="headerlink" title="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0."></a>Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</h3><pre><code>java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.
  at com.alibaba.dubbo.registry.integration.RegistryDirectory.refreshInvoker(RegistryDirectory.java:189)
  at com.alibaba.dubbo.registry.integration.RegistryDirectory.notify(RegistryDirectory.java:154)
  at com.alibaba.dubbo.registry.support.AbstractRegistry.notify(AbstractRegistry.java:440)
@@ -359,12 +357,7 @@
  at org.I0Itec.zkclient.ZkEventThread.run(ZkEventThread
 </code></pre><blockquote>
 <ul>
-<li>原因<ul>
-<li>当一个dubbo服务，先有consumer订阅，后有provider注册时</li>
-<li>且存在override协议，设置该dubbo协议的<code>disable=true</code></li>
-<li>此时consumer端无法创建任何一个invoker，报出此异常</li>
-</ul>
-</li>
+<li><h3 id="定位原因"><a href="#定位原因" class="headerlink" title="定位原因"></a>定位原因</h3>  当一个dubbo服务，先有consumer订阅，后有provider注册时<br>  且存在override协议，设置该dubbo协议的<code>disable=true</code><br>  此时consumer端无法创建任何一个invoker，报出此异常</li>
 </ul>
 </blockquote>
 <hr>
@@ -387,6 +380,25 @@
 <li>设置version<br><em>目的: 保证serviceKey不唯一</em></li>
 </ol>
 </li>
+</ul>
+</blockquote>
+<h3 id="Dubbo异常信息：client-reconnect-to-10-19-133-29-20880-find-error"><a href="#Dubbo异常信息：client-reconnect-to-10-19-133-29-20880-find-error" class="headerlink" title="Dubbo异常信息：client reconnect to 10.19.133.29:20880 find error."></a>Dubbo异常信息：client reconnect to 10.19.133.29:20880 find error.</h3><pre><code>场景：
+    当一个dubbo服务支持多机房的情况
+        1. provider端本机房暴露服务
+        2. consumer端多机房订阅服务
+        3. 每个机房都有独立的注册中心
+    假设
+        1) 现在有一个com.xxx.FooService服务
+        2) 这个服务在A机房暴露服务
+        3) 同时有个消费者分别在A机房和B机房订阅这个服务
+        4) 现在需要将这个服务迁移到B机房
+        5) 此时需要先将这个服务在B机房扩容
+        6) 然后再下掉A机房的服务
+    问题就发生在这里，当下掉A机房服务后，消费者没有断开与A机房的连接，持续warn级别报警，
+    等待15+分钟后，error级别异常报警，并显示连接拒绝
+</code></pre><blockquote>
+<ul>
+<li><h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3></li>
 </ul>
 </blockquote>
 
@@ -512,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -523,7 +535,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -534,7 +546,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -577,7 +589,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><span class="nav-number">2.</span> <span class="nav-text">Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">3.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">4.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定位原因"><span class="nav-number">2.</span> <span class="nav-text">定位原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><span class="nav-number">3.</span> <span class="nav-text">Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">4.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">5.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：client-reconnect-to-10-19-133-29-20880-find-error"><span class="nav-number">6.</span> <span class="nav-text">Dubbo异常信息：client reconnect to 10.19.133.29:20880 find error.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析-1"><span class="nav-number">7.</span> <span class="nav-text">问题分析</span></a></li></ol></div>
             
 
           </div>

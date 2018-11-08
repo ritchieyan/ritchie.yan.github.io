@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="zookeeper," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ritchie Blog">
-<meta property="og:url" content="http://yoursite.com/tags/netstat/index.html">
+<meta name="description" content="命令 示例 描述     conf (sleep 1; echo “conf”; sleep 2;) &amp;#124; telnet [host] [port] (New in 3.3.0)输出相关服务配置的详细信息。比如端口、zk数据及日志配置路径、最大连接数，session超时时间、serverId等   cons (sleep 1; echo “cons”; sleep 2;) &amp;#124">
+<meta name="keywords" content="zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper运维四字命令">
+<meta property="og:url" content="http://yoursite.com/2018/11/08/zk-ops-command/index.html">
 <meta property="og:site_name" content="Ritchie Blog">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="命令 示例 描述     conf (sleep 1; echo “conf”; sleep 2;) &amp;#124; telnet [host] [port] (New in 3.3.0)输出相关服务配置的详细信息。比如端口、zk数据及日志配置路径、最大连接数，session超时时间、serverId等   cons (sleep 1; echo “cons”; sleep 2;) &amp;#124">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-08T09:27:18.241Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ritchie Blog">
-<meta name="twitter:description" content="个人博客">
+<meta name="twitter:title" content="Zookeeper运维四字命令">
+<meta name="twitter:description" content="命令 示例 描述     conf (sleep 1; echo “conf”; sleep 2;) &amp;#124; telnet [host] [port] (New in 3.3.0)输出相关服务配置的详细信息。比如端口、zk数据及日志配置路径、最大连接数，session超时时间、serverId等   cons (sleep 1; echo “cons”; sleep 2;) &amp;#124">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/netstat/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/08/zk-ops-command/"/>
 
 
 
 
 
-  <title>标签: netstat | Ritchie Blog</title>
+  <title>Zookeeper运维四字命令 | Ritchie Blog</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/ritchieyan/ritchieyan.github.io" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,54 +239,244 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>netstat<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/zk-ops-command/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ritchie.Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ritchie Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/10/29/linux-proces-tcp/" itemprop="url">
-              
-                <span itemprop="name">Linux端口占用、进程使用命令</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Zookeeper运维四字命令</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-10-29T15:43:55+08:00"
-              content="2018-10-29" >
-          10-29
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T17:00:09+08:00">
+                2018-11-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
+                    <span itemprop="name">zookeeper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conf</code></td>
+<td>(sleep 1; echo “conf”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)输出相关服务配置的详细信息。比如端口、zk数据及日志配置路径、最大连接数，session超时时间、serverId等</td>
+</tr>
+<tr>
+<td><code>cons</code></td>
+<td>(sleep 1; echo “cons”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)列出所有连接到这台服务器的客户端连接/会话的详细信息。包括“接受/发送”的包数量、session id 、操作延迟、最后的操作执行等信息。</td>
+</tr>
+<tr>
+<td><code>crst</code></td>
+<td>(sleep 1; echo “crst”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)重置当前这台服务器所有连接/会话的统计信息</td>
+</tr>
+<tr>
+<td><code>dump</code></td>
+<td>(sleep 1; echo “dump”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>列出未经处理的会话和临时节点（只在leader上有效）。</td>
+</tr>
+<tr>
+<td><code>envi</code></td>
+<td>(sleep 1; echo “envi”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>输出关于服务器的环境详细信息（不同于conf命令），比如host.name、java.version、java.home、user.dir=/data/zookeeper-3.4.6/bin之类信息</td>
+</tr>
+<tr>
+<td><code>ruok</code></td>
+<td>(sleep 1; echo “ruok”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>测试服务是否处于正确运行状态。如果正常返回”imok”，否则返回空。</td>
+</tr>
+<tr>
+<td><code>srst</code></td>
+<td>(sleep 1; echo “srst”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>重置服务器的统计信息</td>
+</tr>
+<tr>
+<td><code>srvr</code></td>
+<td>(sleep 1; echo “srvr”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)输出服务器的详细信息。zk版本、接收/发送包数量、连接数、模式（leader/follower）、节点总数。</td>
+</tr>
+<tr>
+<td><code>stat</code></td>
+<td>(sleep 1; echo “stat”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>输出服务器的详细信息：接收/发送包数量、连接数、模式（leader/follower）、节点总数、延迟。 所有客户端的列表。</td>
+</tr>
+<tr>
+<td><code>wchs</code></td>
+<td>(sleep 1; echo “wchs”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)列出服务器watches的简洁信息：连接总数、watching节点总数和watches总数</td>
+</tr>
+<tr>
+<td><code>wchc</code></td>
+<td>(sleep 1; echo “wchc”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)通过session分组，列出watch的所有节点，它的输出是一个与 watch 相关的会话的节点列表。<font color="red"><strong>如果watches数量很大的话，将会产生很大的开销，会影响性能，小心使用。</strong></font></td>
+</tr>
+<tr>
+<td><code>wchp</code></td>
+<td>(sleep 1; echo “wchp”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.3.0)通过路径分组，列出所有的 watch 的session id信息。它输出一个与 session 相关的路径。<font color="red"><strong>如果watches数量很大的话，将会产生很大的开销，会影响性能，小心使用。</strong></font></td>
+</tr>
+<tr>
+<td><code>mntr</code></td>
+<td>(sleep 1; echo “mntr”; sleep 2;) &#124; telnet [host] [port]</td>
+<td>(New in 3.4.0)列出集群的健康状态。包括“接受/发送”的包数量、操作延迟、当前服务模式（leader/follower）、节点总数、watch总数、临时节点总数。</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zookeeper/" rel="tag"># zookeeper</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/noSuchMethodError/" rel="next" title="Jackson包依赖冲突，出现NoSuchMethodError异常">
+                <i class="fa fa-chevron-left"></i> Jackson包依赖冲突，出现NoSuchMethodError异常
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -292,6 +484,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -528,6 +724,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
