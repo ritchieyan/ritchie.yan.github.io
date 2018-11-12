@@ -88,7 +88,7 @@
 <meta property="og:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.int">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/resource/img/DubboExport.class.png">
-<meta property="og:updated_time" content="2018-11-07T03:43:49.226Z">
+<meta property="og:updated_time" content="2018-11-12T04:07:58.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo异常问题汇总">
 <meta name="twitter:description" content="Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.java.lang.IllegalStateException: urls to invokers error .invokerUrls.size :1, invoker.size :0.  at com.alibaba.dubbo.registry.int">
@@ -398,7 +398,12 @@
     等待15+分钟后，error级别异常报警，并显示连接拒绝
 </code></pre><blockquote>
 <ul>
-<li><h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3></li>
+<li><h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3>  通过源码分析，我们发现其根本原因在于RegistryDirectory.toInvokers方法中创建的invoker由CircuitBreakerInvoker封装了一层, 导致服务下掉后，仅仅清空了invoker缓存，但无法下掉invoker的连通检测线程<ul>
+<li><h4 id="检测线程是什么？"><a href="#检测线程是什么？" class="headerlink" title="检测线程是什么？"></a>检测线程是什么？</h4> 当invoker创建后，会创建NettyClient去连接服务端，我们来看下NettyClient的父类AbstractClient中的构造方法<br> AbstractClient的构造方法中会调用connect方法，connect方法中会调用initConnectStatusCheckCommand方法<br> 重点就在initConnectStatusCheckCommand方法中，这个方法内会启动一个周期调度线程，周期检测是否保持连接<br>  当销毁invoker时，需要调用AbstactClient.destroyConnectStatusCheckCommand方法中断这个检测线程<br> 但是由于CircuitBreakerInvoker中的destory方法并没有触发NettyClient的关闭，所以导致服务下掉后，检测线程还在一直运行，最终导致异常</li>
+<li><h4 id="Invoker创建链路"><a href="#Invoker创建链路" class="headerlink" title="Invoker创建链路"></a>Invoker创建链路</h4>  RegistyDirectory<br>  <code>notify</code> -&gt; <code>refreshInvoker</code> -&gt; <code>toInvokers</code> - &gt; <code>new CircuitBreakerInvoker</code> -&gt; <code>DubboProtocol.refer</code><br>  DubboProtocol<br>  <code>refer</code> -&gt; <code>new DubboInvoker</code> -&gt; <code>new HeaderExchangeClient</code> -&gt; <code>new HeaderExchangeChannel</code> -&gt; <code>NettyTransporter(Netty3)</code> -&gt; <code>new NettyClient</code> -&gt; <code>new AbstractClient</code> -&gt; <code>AbstractClient.connect</code><br>  NettyClient<br>  <code>connect</code> -&gt; <code>initConnectStatusCheckCommand</code>    </li>
+<li><h4 id="Invoker销毁链路"><a href="#Invoker销毁链路" class="headerlink" title="Invoker销毁链路"></a>Invoker销毁链路</h4>  RegistyDirectory<br>  <code>notify</code> -&gt; <code>refreshInvoker</code> -&gt; <code>destroyAllInvokers</code> -&gt; <code>CircuitBreakerInvoker.destory(继承父类AbstractInvoker.destory)</code></li>
+</ul>
+</li>
 </ul>
 </blockquote>
 
@@ -524,7 +529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -535,7 +540,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -546,7 +551,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -589,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定位原因"><span class="nav-number">2.</span> <span class="nav-text">定位原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><span class="nav-number">3.</span> <span class="nav-text">Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">4.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">5.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：client-reconnect-to-10-19-133-29-20880-find-error"><span class="nav-number">6.</span> <span class="nav-text">Dubbo异常信息：client reconnect to 10.19.133.29:20880 find error.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析-1"><span class="nav-number">7.</span> <span class="nav-text">问题分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：urls-to-invokers-error-invokerUrls-size-1-invoker-size-0"><span class="nav-number">1.</span> <span class="nav-text">Dubbo异常信息：urls to invokers error .invokerUrls.size :1, invoker.size :0.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定位原因"><span class="nav-number">2.</span> <span class="nav-text">定位原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：Not-found-exported-service-com-xxx-FooService-20070"><span class="nav-number">3.</span> <span class="nav-text">Dubbo异常信息：Not found exported service: com.xxx.FooService:20070.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">4.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">5.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo异常信息：client-reconnect-to-10-19-133-29-20880-find-error"><span class="nav-number">6.</span> <span class="nav-text">Dubbo异常信息：client reconnect to 10.19.133.29:20880 find error.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析-1"><span class="nav-number">7.</span> <span class="nav-text">问题分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测线程是什么？"><span class="nav-number">7.1.</span> <span class="nav-text">检测线程是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Invoker创建链路"><span class="nav-number">7.2.</span> <span class="nav-text">Invoker创建链路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Invoker销毁链路"><span class="nav-number">7.3.</span> <span class="nav-text">Invoker销毁链路</span></a></li></ol></li></ol></div>
             
 
           </div>
